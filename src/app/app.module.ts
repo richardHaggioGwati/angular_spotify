@@ -8,6 +8,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { BoxComponent } from './sidebar/box/box.component';
 import { SidebarItemComponent } from './sidebar/sidebar-item/sidebar-item.component';
 import { LibraryComponent } from './sidebar/library/library.component';
+import { HeaderComponent } from './header/header.component';
+import { ButtonComponent } from './header/button/button.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,8 @@ import { LibraryComponent } from './sidebar/library/library.component';
     BoxComponent,
     SidebarItemComponent,
     LibraryComponent,
+    HeaderComponent,
+    ButtonComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FontAwesomeModule],
   providers: [],
