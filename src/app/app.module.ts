@@ -10,6 +10,8 @@ import { SidebarItemComponent } from './sidebar/sidebar-item/sidebar-item.compon
 import { LibraryComponent } from './sidebar/library/library.component';
 import { HeaderComponent } from './header/header.component';
 import { ButtonComponent } from './header/button/button.component';
+import { ListItemComponent } from './header/list-item/list-item.component';
+import { NgOptimizedImage } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -20,8 +22,14 @@ import { ButtonComponent } from './header/button/button.component';
     LibraryComponent,
     HeaderComponent,
     ButtonComponent,
+    ListItemComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FontAwesomeModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FontAwesomeModule,
+    NgOptimizedImage,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
