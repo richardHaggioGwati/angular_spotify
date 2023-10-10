@@ -6,6 +6,7 @@ import {
   faHome,
   faSearch,
 } from '@fortawesome/free-solid-svg-icons';
+import { ModalService } from '../services/modal.service';
 
 @Component({
   selector: 'app-header',
@@ -16,4 +17,10 @@ export class HeaderComponent {
   rightIcon = faCaretRight;
   homeIcon = faHome;
   searchIcon = faSearch;
+
+  constructor(private modalService: ModalService) {}
+
+  openLoginModal() {
+    this.modalService.toggleLoginModal();
+  }
 }

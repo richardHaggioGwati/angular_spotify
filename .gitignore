@@ -1,7 +1,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# Secret file
-.env.local
+# local env files
+.env*.local
 
 # Compiled output
 /dist
