@@ -12,6 +12,10 @@ import { HeaderComponent } from './header/header.component';
 import { ButtonComponent } from './header/button/button.component';
 import { ListItemComponent } from './header/list-item/list-item.component';
 import { NgOptimizedImage } from '@angular/common';
+import { ModalComponent } from './modal/modal.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AuthModalComponent } from './modal/auth-modal/auth-modal.component';
 
 @NgModule({
   declarations: [
@@ -23,12 +27,16 @@ import { NgOptimizedImage } from '@angular/common';
     HeaderComponent,
     ButtonComponent,
     ListItemComponent,
+    ModalComponent,
+    AuthModalComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
     NgOptimizedImage,
+    BrowserAnimationsModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
