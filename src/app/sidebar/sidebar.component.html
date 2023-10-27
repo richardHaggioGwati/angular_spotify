@@ -2,11 +2,21 @@
   <div class='hidden md:flex flex-col gap-y-2 bg-black h-full w-[300px] p-2'>
     <app-box>
       <div class='flex flex-col gap-y-4 px-5 py-4'>
-        <app-sidebar-item [icon]='faHome' [label]='"Home"' [link]='""'></app-sidebar-item>
-        <app-sidebar-item [icon]='faSearch' [label]='"Search"' [link]='"search"'></app-sidebar-item>
+        <a
+          class='flex flex-row items-center w-full gap-x-4 text-md font-medium cursor-pointer hover:text-white transition text-neutral-400 py-1'
+          routerLink='' routerLinkActive='text-white'>
+          <i class="fa-solid fa-house" style="color: #ffffff;"></i>
+          <p class='truncate w-full'>Home</p>
+        </a>
+        <a
+          class='flex flex-row items-center w-full gap-x-4 text-md font-medium cursor-pointer hover:text-white transition text-neutral-400 py-1'
+          routerLink='' routerLinkActive='text-white'>
+          <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
+          <p class='truncate w-full'>Home</p>
+        </a>
       </div>
     </app-box>
-    <div class="bg-neutral-900 rounded-lg w-full overflow-y-auto h-full">
+    <div class='bg-neutral-900 rounded-lg w-full overflow-y-auto h-full'>
       <app-library></app-library>
     </div>
   </div>

@@ -3,13 +3,13 @@ import { Subject } from 'rxjs';
 
 @Injectable()
 export class ModalService {
-  isLoginModalOpen = false;
+  isAuthModalOpen = false;
 
-  isLoginModalOpenChange = new Subject<boolean>();
+  isAuthModalOpenChange = new Subject<boolean>();
 
   toggleLoginModal() {
-    console.log(this.isLoginModalOpen);
-    this.isLoginModalOpen = !this.isLoginModalOpen;
-    this.isLoginModalOpenChange.next(this.isLoginModalOpen);
+    console.log(this.isAuthModalOpen);
+    this.isAuthModalOpen = !this.isAuthModalOpen;
+    this.isAuthModalOpenChange.next(this.isAuthModalOpen);
   }
 }

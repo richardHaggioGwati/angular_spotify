@@ -1,14 +1,4 @@
 .container{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #404040;
-  border-radius: 30px;
-  overflow: hidden;
-  width: 768px;
-  max-width: 100%;
-  min-height: 480px;
 }
 
 .container button.hidden{

@@ -20,7 +20,7 @@ export class HeaderComponent {
 
   constructor(private modalService: ModalService) {}
 
-  openLoginModal() {
+  openAuthModal() {
     this.modalService.toggleLoginModal();
   }
 }
