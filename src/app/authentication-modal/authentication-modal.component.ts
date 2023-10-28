@@ -17,11 +17,11 @@ export class AuthenticationModalComponent implements OnInit, OnDestroy {
 
   toggleActive() {
     this.isActive = !this.isActive;
-    console.log('active');
   }
 
   signInForm = this.formBuilder.group({
     email: '',
+    name: '',
   });
 
   constructor(

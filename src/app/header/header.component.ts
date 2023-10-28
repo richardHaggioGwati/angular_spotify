@@ -1,11 +1,4 @@
 import { Component } from '@angular/core';
-
-import {
-  faCaretLeft,
-  faCaretRight,
-  faHome,
-  faSearch,
-} from '@fortawesome/free-solid-svg-icons';
 import { ModalService } from '../services/modal.service';
 
 @Component({
@@ -13,11 +6,6 @@ import { ModalService } from '../services/modal.service';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent {
-  leftIcon = faCaretLeft;
-  rightIcon = faCaretRight;
-  homeIcon = faHome;
-  searchIcon = faSearch;
-
   constructor(private modalService: ModalService) {}
 
   openAuthModal() {
