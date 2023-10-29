@@ -1,32 +1,3 @@
-.container{
-}
-
-.container button.hidden{
-  background-color: transparent;
-  border-color: #fff;
-}
-
-.container form{
-  background-color: #404040;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 0 40px;
-  height: 100%;
-}
-
-.container input{
-  background-color: #585858;
-  border: none;
-  margin: 8px 0;
-  padding: 10px 15px;
-  font-size: 13px;
-  border-radius: 8px;
-  width: 100%;
-  outline: none;
-}
-
 .form-container{
   position: absolute;
   top: 0;
@@ -135,6 +106,6 @@
   transform: translateX(200%);
 }
 
-@media (max-width: 850px) {
+/*@media (max-width: 850px) {*/
 
-}
+/*}*/

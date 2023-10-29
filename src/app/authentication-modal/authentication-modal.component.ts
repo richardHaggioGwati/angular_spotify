@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { SupabaseService } from '../supabase.service';
-import { FormBuilder } from '@angular/forms';
+import { SupabaseService } from '../services/supabase.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalService } from '../services/modal.service';
 
 @Component({
@@ -11,18 +11,16 @@ import { ModalService } from '../services/modal.service';
 })
 export class AuthenticationModalComponent implements OnInit, OnDestroy {
   isActive = false;
-  loading = false;
-  isOpen = this.modalService.isAuthModalOpen;
   private isAuthModalOpenSubscription: Subscription;
+  isOpen = this.modalService.isAuthModalOpen;
+
+  loading = false;
+  registrationForm: FormGroup;
+  loginForm: FormGroup;
 
   toggleActive() {
     this.isActive = !this.isActive;
   }
-
-  signInForm = this.formBuilder.group({
-    email: '',
-    name: '',
-  });
 
   constructor(
     private readonly supabase: SupabaseService,
@@ -33,6 +31,32 @@ export class AuthenticationModalComponent implements OnInit, OnDestroy {
       this.modalService.isAuthModalOpenChange.subscribe(value => {
         this.isOpen = value;
       });
+    this.registrationForm = this.formBuilder.group({
+      email: formBuilder.control('', [
+        Validators.required,
+        Validators.email,
+        Validators.minLength(5),
+      ]),
+      password: formBuilder.control('', [
+        Validators.required,
+        Validators.minLength(7),
+      ]),
+      username: formBuilder.control('', [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+    });
+    this.loginForm = this.formBuilder.group({
+      email: formBuilder.control('', [
+        Validators.required,
+        Validators.email,
+        Validators.minLength(5),
+      ]),
+      password: formBuilder.control('', [
+        Validators.required,
+        Validators.minLength(7),
+      ]),
+    });
   }
 
   onCloseModel() {
@@ -42,23 +66,6 @@ export class AuthenticationModalComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isOpen = this.modalService.isAuthModalOpen;
-  }
-
-  async onSubmit(): Promise<void> {
-    try {
-      this.loading = true;
-      const email = this.signInForm.value.email as string;
-      const { error } = await this.supabase.signIn(email);
-      if (error) throw error;
-      alert('Check your email for the login link!');
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message);
-      }
-    } finally {
-      this.signInForm.reset();
-      this.loading = false;
-    }
   }
 
   ngOnDestroy() {
