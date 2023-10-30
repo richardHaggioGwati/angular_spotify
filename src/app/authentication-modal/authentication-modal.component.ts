@@ -23,7 +23,7 @@ export class AuthenticationModalComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private readonly supabase: SupabaseService,
+    private readonly authentication: SupabaseService,
     private readonly formBuilder: FormBuilder,
     private modalService: ModalService
   ) {
@@ -62,6 +62,28 @@ export class AuthenticationModalComponent implements OnInit, OnDestroy {
   onCloseModel() {
     this.modalService.toggleLoginModal();
     console.log('clicked', this.isOpen);
+  }
+
+  //TODO: consume user name for profile
+  onSubmitRegistrationForm() {
+    this.authentication
+      .signUp(
+        this.registrationForm.value.email,
+        this.registrationForm.value.password
+      )
+      .then(res => console.log(res))
+      .catch(error => console.log(error));
+    this.registrationForm.reset();
+    this.onCloseModel();
+  }
+
+  onSubmitLoginForm() {
+    this.authentication
+      .login(this.loginForm.value.email, this.loginForm.value.password)
+      .then(res => console.log(res))
+      .catch(error => console.log(error));
+    this.loginForm.reset();
+    this.onCloseModel();
   }
 
   ngOnInit() {

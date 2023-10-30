@@ -3,7 +3,7 @@
     class='container bg-[#404040] rounded-3xl overflow-hidden w-[768px] max-w-full min-h-[480px] absolute top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%]'
     id='container' [class.active]='isActive'>
     <div class='form-container sign-up'>
-      <form [formGroup]='registrationForm' class='container_form'>
+      <form [formGroup]='registrationForm' class='container_form' (ngSubmit)='onSubmitRegistrationForm()'>
         <h1 class='text-xl text-center font-bold'>Register Account</h1>
         <div class='my-5'>
           <!-- TODO: add third party authentication -->
@@ -30,7 +30,7 @@
       </form>
     </div>
     <div class='form-container sign-in'>
-      <form [formGroup]='loginForm' class='container_form'>
+      <form [formGroup]='loginForm' class='container_form' (ngSubmit)='onSubmitLoginForm()'>
         <h1 class='text-3xl text-center font-bold'>Sign In</h1>
         <div class='my-5'>
           <!-- TODO: add third party authentication -->
@@ -51,7 +51,7 @@
           Please enter a valid password.
         </i>
         <a href='#' class=''>Forget Your Password?</a>
-        <button class='auth_button'>Sign In</button>
+        <button [disabled]='loginForm.invalid' class='auth_button'>Sign In</button>
       </form>
     </div>
     <div class='toggle-container'>

@@ -12,7 +12,6 @@ import { environment } from 'src/environments/environment';
 export interface Profile {
   id?: string;
   username: string;
-  website: string;
   avatar_url: string;
 }
 
@@ -20,25 +19,25 @@ export interface Profile {
   providedIn: 'root',
 })
 export class SupabaseService {
-  private supabase: SupabaseClient;
+  private supabase_client: SupabaseClient;
   _session: AuthSession | null = null;
 
   constructor() {
-    this.supabase = createClient(
+    this.supabase_client = createClient(
       environment.supabaseUrl,
       environment.supabaseKey
     );
   }
 
   get session() {
-    this.supabase.auth.getSession().then(({ data }) => {
+    this.supabase_client.auth.getSession().then(({ data }) => {
       this._session = data.session;
     });
     return this._session;
   }
 
   profile(user: User) {
-    return this.supabase
+    return this.supabase_client
       .from('profiles')
       .select(`username, website, avatar_url`)
       .eq('id', user.id)
@@ -48,15 +47,22 @@ export class SupabaseService {
   authChanges(
     callback: (event: AuthChangeEvent, session: Session | null) => void
   ) {
-    return this.supabase.auth.onAuthStateChange(callback);
+    return this.supabase_client.auth.onAuthStateChange(callback);
   }
 
-  signIn(email: string) {
-    return this.supabase.auth.signInWithOtp({ email });
+  signUp(email: string, password: string) {
+    return this.supabase_client.auth.signUp({ email, password });
+  }
+
+  login(email: string, password: string) {
+    return this.supabase_client.auth.signInWithPassword({ email, password });
+  }
+  signUpWithOtp(email: string) {
+    return this.supabase_client.auth.signInWithOtp({ email });
   }
 
   signOut() {
-    return this.supabase.auth.signOut();
+    return this.supabase_client.auth.signOut();
   }
 
   updateProfile(profile: Profile) {
@@ -65,14 +71,14 @@ export class SupabaseService {
       updated_at: new Date(),
     };
 
-    return this.supabase.from('profiles').upsert(update);
+    return this.supabase_client.from('profiles').upsert(update);
   }
 
   downLoadImage(path: string) {
-    return this.supabase.storage.from('avatars').download(path);
+    return this.supabase_client.storage.from('avatars').download(path);
   }
 
   uploadAvatar(filePath: string, file: File) {
-    return this.supabase.storage.from('avatars').upload(filePath, file);
+    return this.supabase_client.storage.from('avatars').upload(filePath, file);
   }
 }
