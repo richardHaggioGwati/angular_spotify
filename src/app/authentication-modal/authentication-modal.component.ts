@@ -14,6 +14,7 @@ export class AuthenticationModalComponent implements OnInit, OnDestroy {
   private isAuthModalOpenSubscription: Subscription;
   isOpen = this.modalService.isAuthModalOpen;
 
+  //TODO: add loading state
   loading = false;
   registrationForm: FormGroup;
   loginForm: FormGroup;
