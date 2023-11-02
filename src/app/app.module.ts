@@ -14,6 +14,9 @@ import { NgOptimizedImage } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalService } from './services/modal.service';
 import { AuthenticationModalComponent } from './authentication-modal/authentication-modal.component';
+import { HomeComponent } from './tmp/home/home.component';
+import { SearchComponent } from './tmp/search/search.component';
+import { UploadSongModalComponent } from './upload-song-modal/upload-song-modal.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +28,9 @@ import { AuthenticationModalComponent } from './authentication-modal/authenticat
     ListItemComponent,
     AuthenticationModalComponent,
     BoxComponent,
+    HomeComponent,
+    SearchComponent,
+    UploadSongModalComponent,
   ],
   imports: [
     BrowserModule,

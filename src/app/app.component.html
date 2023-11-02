@@ -11,10 +11,11 @@
     <div class='mt-2 mb-7 px-6'>
       <div class='flex justify-between items-center'>
         <h1 class='text-white text-2xl font-semibold'>
-          Newest songs
+          <router-outlet></router-outlet>
         </h1>
       </div>
     </div>
     <app-authentication-modal></app-authentication-modal>
+    <app-upload-song-modal></app-upload-song-modal>
   </main>
 </app-sidebar>

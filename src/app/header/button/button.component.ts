@@ -6,4 +6,6 @@ import { Component, Input } from '@angular/core';
 })
 export class ButtonComponent {
   @Input() additionalClass: string;
+  @Input() disabled: boolean;
+  @Input() type: string;
 }
