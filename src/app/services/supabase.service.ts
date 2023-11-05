@@ -20,6 +20,7 @@ export interface Profile {
 })
 export class SupabaseService {
   private supabase_client: SupabaseClient;
+  uploadSongLoading = false;
   _session: AuthSession | null = null;
 
   constructor() {
@@ -57,6 +58,7 @@ export class SupabaseService {
   login(email: string, password: string) {
     return this.supabase_client.auth.signInWithPassword({ email, password });
   }
+
   signUpWithOtp(email: string) {
     return this.supabase_client.auth.signInWithOtp({ email });
   }
@@ -80,5 +82,72 @@ export class SupabaseService {
 
   uploadAvatar(filePath: string, file: File) {
     return this.supabase_client.storage.from('avatars').upload(filePath, file);
+  }
+
+  async uploadSong(
+    title: string,
+    author: string,
+    songFile: string,
+    image: string
+  ) {
+    try {
+      console.log('Upload started...');
+      this.uploadSongLoading = true;
+
+      if (!image || !songFile || !this.session) {
+        throw new Error('Missing fields');
+      }
+
+      //TODO: generate unique ID
+      const uniqueID = Math.random();
+
+      const { data: songData, error: songError } =
+        await this.supabase_client.storage
+          .from('songs')
+          .upload(`song-${title}-${uniqueID}`, songFile, {
+            cacheControl: '3600',
+            upsert: false,
+          });
+
+      if (songError) {
+        this.uploadSongLoading = false;
+        throw new Error(`Song upload error: ${songError.message}`);
+      }
+
+      const { data: imageData, error: imageError } =
+        await this.supabase_client.storage
+          .from('images')
+          .upload(`image-${title}-${uniqueID}`, image, {
+            cacheControl: '3600',
+            upsert: false,
+          });
+
+      if (imageError) {
+        this.uploadSongLoading = false;
+        throw new Error(`Image upload error: ${imageError.message}`);
+      }
+
+      // Create record
+      const { error: supabaseError } = await this.supabase_client
+        .from('songs')
+        .insert({
+          user_id: this.session.user.id,
+          title: title,
+          author: author,
+          image_path: imageData.path,
+          song_path: songData.path,
+        });
+
+      if (supabaseError) {
+        throw new Error(`Supabase insert error: ${supabaseError.message}`);
+      }
+
+      console.log('Upload completed...');
+      return;
+    } catch (error) {
+      return error;
+    } finally {
+      this.uploadSongLoading = false;
+    }
   }
 }

@@ -1,10 +1,11 @@
+<!-- TODO: check for background blur effect on modal -->
 <div [ngClass]='isOpen ? "bg-neutral-900/90 backdrop-blur-sm fixed inset-0" : "hidden"'>
   <div
     class='fixed drop-shadow-md border border-neutral-700 top-[50%] left-[50%] max-h-full h-full md:h-auto md:max-h-[85vh] w-full md:w-[90vw] md:max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-md bg-neutral-800 p-[25px] focus:outline-none'>
     <h1 class='text-xl text-center font-bold mb-4'>Add a song</h1>
     <p class='mb-5 text-sm leading-normal text-center'>Upload an mp3 file</p>
     <div>
-      <form class='flex flex-col gap-y-4' [formGroup]='songUploadForm'>
+      <form class='flex flex-col gap-y-4' [formGroup]='songUploadForm' (ngSubmit)='onSubmit()'>
         <input class='custom_input' formControlName='song_title' [disabled]='isLoading' placeholder='Song title'>
         <i class='text-red-400 text-sm text-center'
            *ngIf='songUploadForm.controls["song_title"].invalid && (songUploadForm.controls["song_title"].dirty || songUploadForm.controls["song_title"].touched)'>

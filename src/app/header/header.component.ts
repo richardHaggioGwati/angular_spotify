@@ -17,7 +17,6 @@ export class HeaderComponent implements OnInit {
 
   openAuthModal() {
     this.modalService.toggleLoginModal();
-    console.log(this.session, 'user session');
   }
 
   handleLogout() {
