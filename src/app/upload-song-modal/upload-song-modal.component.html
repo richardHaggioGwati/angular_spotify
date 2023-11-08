@@ -20,13 +20,13 @@
           <div class='pb-1'>
             Select a song file
           </div>
-          <input class='custom_input' formControlName='song_file' [disabled]='isLoading' type='file' accept='.mp3'>
+          <input class='custom_input' (change)='getSongFile($event)' type='file' accept='.mp3'>
         </div>
         <div>
           <div class='pb-1'>
             Select an image cover
           </div>
-          <input class='custom_input' formControlName='song_cover' [disabled]='isLoading' type='file' accept='image/*'>
+          <input class='custom_input' (change)='getSongCoverFile($event)' type='file' accept='image/*'>
         </div>
         <app-button type='submit' [disabled]='isLoading' [ngClass]='isLoading ? "opacity-75 cursor-not-allowed" : ""'>
           Create

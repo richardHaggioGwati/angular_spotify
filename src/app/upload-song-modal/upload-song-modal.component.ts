@@ -17,6 +17,10 @@ export class UploadSongModalComponent implements OnDestroy, OnInit {
   songUploadForm: FormGroup;
   session: AuthSession | null;
 
+  //FILES
+  songFile: File | null;
+  songCoverFile: File | null;
+
   constructor(
     private modalService: ModalService,
     private formBuilder: FormBuilder,
@@ -35,8 +39,6 @@ export class UploadSongModalComponent implements OnDestroy, OnInit {
         Validators.required,
         Validators.minLength(2),
       ]),
-      song_file: formBuilder.control(null, [Validators.required]),
-      song_cover: formBuilder.control(null, [Validators.required]),
     });
   }
 
@@ -48,18 +50,40 @@ export class UploadSongModalComponent implements OnDestroy, OnInit {
     this.modalService.toggleUploadModal();
   }
 
+  getSongFile(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const files = inputElement.files;
+
+    if (files && files.length > 0) {
+      this.songFile = files[0];
+    }
+  }
+
+  getSongCoverFile(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const files = inputElement.files;
+
+    if (files && files.length > 0) {
+      this.songCoverFile = files[0];
+    }
+  }
+
   async onSubmit() {
+    this.closeModal();
+    this.modalService.toggleLoadingModal();
     const songTitle = this.songUploadForm.get('song_title')?.value as string;
     const songAuthor = this.songUploadForm.get('song_author')?.value as string;
-    const imageFile = this.songUploadForm.get('song_cover')?.value as string;
-    const songFile = this.songUploadForm.get('song_file')?.value as string;
 
     await this.supabaseService.uploadSong(
       songTitle,
       songAuthor,
-      songFile,
-      imageFile
+      this.songFile,
+      this.songCoverFile
     );
+    this.songUploadForm.reset();
+    this.songFile = null;
+    this.songCoverFile = null;
+    this.modalService.toggleLoadingModal();
   }
 
   ngOnDestroy() {
