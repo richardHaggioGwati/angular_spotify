@@ -17,6 +17,8 @@ import { AuthenticationModalComponent } from './authentication-modal/authenticat
 import { HomeComponent } from './tmp/home/home.component';
 import { SearchComponent } from './tmp/search/search.component';
 import { UploadSongModalComponent } from './upload-song-modal/upload-song-modal.component';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import { AlertComponent } from './alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { UploadSongModalComponent } from './upload-song-modal/upload-song-modal.
     HomeComponent,
     SearchComponent,
     UploadSongModalComponent,
+    LoadingSpinnerComponent,
+    AlertComponent,
   ],
   imports: [
     BrowserModule,

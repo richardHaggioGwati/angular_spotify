@@ -7,6 +7,7 @@ import {
   SupabaseClient,
   User,
 } from '@supabase/supabase-js';
+import { v4 as uuidv4 } from 'uuid';
 import { environment } from 'src/environments/environment';
 
 export interface Profile {
@@ -87,19 +88,28 @@ export class SupabaseService {
   async uploadSong(
     title: string,
     author: string,
-    songFile: string,
-    image: string
+    songFile: File | null,
+    image: File | null
   ) {
     try {
+      const user = await this.supabase_client.auth.getSession();
+      const userID = user.data.session?.user.id;
+
+      console.log({
+        userID: 'userId',
+      });
       console.log('Upload started...');
       this.uploadSongLoading = true;
 
-      if (!image || !songFile || !this.session) {
+      if (
+        !image ||
+        !songFile ||
+        !(await this.supabase_client.auth.getSession())
+      ) {
         throw new Error('Missing fields');
       }
 
-      //TODO: generate unique ID
-      const uniqueID = Math.random();
+      const uniqueID = uuidv4();
 
       const { data: songData, error: songError } =
         await this.supabase_client.storage
@@ -131,7 +141,7 @@ export class SupabaseService {
       const { error: supabaseError } = await this.supabase_client
         .from('songs')
         .insert({
-          user_id: this.session.user.id,
+          user_id: userID,
           title: title,
           author: author,
           image_path: imageData.path,
@@ -145,7 +155,7 @@ export class SupabaseService {
       console.log('Upload completed...');
       return;
     } catch (error) {
-      return error;
+      return console.log('Error: ', error);
     } finally {
       this.uploadSongLoading = false;
     }

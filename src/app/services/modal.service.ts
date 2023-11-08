@@ -5,9 +5,11 @@ import { Subject } from 'rxjs';
 export class ModalService {
   isAuthModalOpen = false;
   isUploadModalOpen = false;
+  isLoadingModalOpen = false;
 
   isAuthModalOpenChange = new Subject<boolean>();
   isUploadModalOpenChange = new Subject<boolean>();
+  isLoadingModalOpenChange = new Subject<boolean>();
 
   toggleLoginModal() {
     console.log(this.isAuthModalOpen);
@@ -18,5 +20,10 @@ export class ModalService {
   toggleUploadModal() {
     this.isUploadModalOpen = !this.isUploadModalOpen;
     this.isUploadModalOpenChange.next(this.isUploadModalOpen);
+  }
+
+  toggleLoadingModal() {
+    this.isLoadingModalOpen = !this.isLoadingModalOpen;
+    this.isLoadingModalOpenChange.next(this.isLoadingModalOpen);
   }
 }
