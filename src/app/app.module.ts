@@ -14,11 +14,13 @@ import { NgOptimizedImage } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalService } from './services/modal.service';
 import { AuthenticationModalComponent } from './authentication-modal/authentication-modal.component';
-import { HomeComponent } from './tmp/home/home.component';
 import { SearchComponent } from './tmp/search/search.component';
 import { UploadSongModalComponent } from './upload-song-modal/upload-song-modal.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { AlertComponent } from './alert/alert.component';
+import { PageContentComponent } from './page-content/page-content.component';
+import { MediaItemComponent } from './page-content/media-item/media-item.component';
+import { LikeButtonComponent } from './page-content/like-button/like-button.component';
 
 @NgModule({
   declarations: [
@@ -30,11 +32,13 @@ import { AlertComponent } from './alert/alert.component';
     ListItemComponent,
     AuthenticationModalComponent,
     BoxComponent,
-    HomeComponent,
     SearchComponent,
     UploadSongModalComponent,
     LoadingSpinnerComponent,
     AlertComponent,
+    PageContentComponent,
+    MediaItemComponent,
+    LikeButtonComponent,
   ],
   imports: [
     BrowserModule,

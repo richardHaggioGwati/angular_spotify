@@ -9,6 +9,7 @@ import {
 } from '@supabase/supabase-js';
 import { v4 as uuidv4 } from 'uuid';
 import { environment } from 'src/environments/environment';
+import { Song } from '../types/types';
 
 export interface Profile {
   id?: string;
@@ -159,5 +160,18 @@ export class SupabaseService {
     } finally {
       this.uploadSongLoading = false;
     }
+  }
+
+  async getSongs(): Promise<Song[]> {
+    const { data, error } = await this.supabase_client
+      .from('songs')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.log(error);
+    }
+
+    return (data as Song[]) || [];
   }
 }
