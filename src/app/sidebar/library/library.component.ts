@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalService } from '../../services/modal.service';
 import { SupabaseService } from '../../services/supabase.service';
 import { AuthSession } from '@supabase/supabase-js';
+import { Song } from '../../types/types';
 
 @Component({
   selector: 'app-library',
@@ -9,6 +10,7 @@ import { AuthSession } from '@supabase/supabase-js';
 })
 export class LibraryComponent implements OnInit {
   session: AuthSession | null;
+  songs: Song[];
 
   constructor(
     private modalService: ModalService,
@@ -25,5 +27,10 @@ export class LibraryComponent implements OnInit {
 
   ngOnInit() {
     this.supabaseService.authChanges((_, session) => (this.session = session));
+
+    this.supabaseService.getSongsByUserId().then((songs: Song[]) => {
+      this.songs = songs;
+      console.log('songs: ', songs);
+    });
   }
 }

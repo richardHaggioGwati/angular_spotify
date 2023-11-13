@@ -1,7 +1,5 @@
-<div class="grid grid-cols-2 md:grid-cols-3 h-full">
-  <div class='flex w-full justify-start'>
-      <div class='flex items-center gap-x-4' *ngFor='let song of songs'>
-        <app-media-item [song]='song'></app-media-item>
-      </div>
+<div class='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 gap-4 mt-4 h-full'>
+  <div *ngFor='let song of songs'>
+    <app-song-item [song]='song'></app-song-item>
   </div>
 </div>

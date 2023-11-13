@@ -174,4 +174,36 @@ export class SupabaseService {
 
     return (data as Song[]) || [];
   }
+
+  downloadSongImageCover(song: Song) {
+    if (!song) return null;
+
+    const { data: imageData } = this.supabase_client.storage
+      .from('images')
+      .getPublicUrl(song.image_path);
+
+    return imageData.publicUrl;
+  }
+
+  async getSongsByUserId() {
+    const { data: sessionData, error: sessionError } =
+      await this.supabase_client.auth.getSession();
+
+    if (sessionError) {
+      console.log(sessionError.message);
+      return [];
+    }
+
+    const { data, error } = await this.supabase_client
+      .from('songs')
+      .select('*')
+      .eq('user_id', sessionData.session?.user.id)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.log(error.message);
+    }
+
+    return (data as Song[]) || [];
+  }
 }

@@ -14,7 +14,6 @@ export class PageContentComponent implements OnInit {
   ngOnInit() {
     this.supabaseService.getSongs().then((songs: Song[]) => {
       this.songs = songs;
-      console.log(songs);
     });
   }
 }

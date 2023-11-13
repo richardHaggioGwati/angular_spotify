@@ -19,8 +19,10 @@ import { UploadSongModalComponent } from './upload-song-modal/upload-song-modal.
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { AlertComponent } from './alert/alert.component';
 import { PageContentComponent } from './page-content/page-content.component';
-import { MediaItemComponent } from './page-content/media-item/media-item.component';
-import { LikeButtonComponent } from './page-content/like-button/like-button.component';
+import { MediaItemComponent } from './sidebar/library/media-item/media-item.component';
+import { LikeButtonComponent } from './sidebar/library/like-button/like-button.component';
+import { SongItemComponent } from './page-content/song-item/song-item.component';
+import { PlayButtonComponent } from './play-button/play-button.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { LikeButtonComponent } from './page-content/like-button/like-button.comp
     PageContentComponent,
     MediaItemComponent,
     LikeButtonComponent,
+    SongItemComponent,
+    PlayButtonComponent,
   ],
   imports: [
     BrowserModule,
