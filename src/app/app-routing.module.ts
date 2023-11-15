@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SearchComponent } from './tmp/search/search.component';
-import { PageContentComponent } from './page-content/page-content.component';
+import { PageContentComponent } from './pages/page-content/page-content.component';
+import { SearchComponent } from './pages/search/search.component';
+import { LikedComponent } from './pages/liked/liked.component';
 
 const routes: Routes = [
   { path: '', component: PageContentComponent },
   { path: 'search', component: SearchComponent },
+  { path: 'liked', component: LikedComponent },
 ];
 
 @NgModule({

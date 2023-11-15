@@ -10,6 +10,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { environment } from 'src/environments/environment';
 import { Song } from '../types/types';
+import { ModalService } from './modal.service';
 
 export interface Profile {
   id?: string;
@@ -24,8 +25,9 @@ export class SupabaseService {
   private supabase_client: SupabaseClient;
   uploadSongLoading = false;
   _session: AuthSession | null = null;
+  _songLiked = false;
 
-  constructor() {
+  constructor(private modalService: ModalService) {
     this.supabase_client = createClient(
       environment.supabaseUrl,
       environment.supabaseKey
@@ -61,10 +63,6 @@ export class SupabaseService {
     return this.supabase_client.auth.signInWithPassword({ email, password });
   }
 
-  signUpWithOtp(email: string) {
-    return this.supabase_client.auth.signInWithOtp({ email });
-  }
-
   signOut() {
     return this.supabase_client.auth.signOut();
   }
@@ -76,14 +74,6 @@ export class SupabaseService {
     };
 
     return this.supabase_client.from('profiles').upsert(update);
-  }
-
-  downLoadImage(path: string) {
-    return this.supabase_client.storage.from('avatars').download(path);
-  }
-
-  uploadAvatar(filePath: string, file: File) {
-    return this.supabase_client.storage.from('avatars').upload(filePath, file);
   }
 
   async uploadSong(
@@ -107,7 +97,7 @@ export class SupabaseService {
         !songFile ||
         !(await this.supabase_client.auth.getSession())
       ) {
-        throw new Error('Missing fields');
+        return new Error('Missing fields');
       }
 
       const uniqueID = uuidv4();
@@ -122,7 +112,7 @@ export class SupabaseService {
 
       if (songError) {
         this.uploadSongLoading = false;
-        throw new Error(`Song upload error: ${songError.message}`);
+        return new Error(`Song upload error: ${songError.message}`);
       }
 
       const { data: imageData, error: imageError } =
@@ -135,7 +125,7 @@ export class SupabaseService {
 
       if (imageError) {
         this.uploadSongLoading = false;
-        throw new Error(`Image upload error: ${imageError.message}`);
+        return new Error(`Image upload error: ${imageError.message}`);
       }
 
       // Create record
@@ -150,7 +140,7 @@ export class SupabaseService {
         });
 
       if (supabaseError) {
-        throw new Error(`Supabase insert error: ${supabaseError.message}`);
+        return new Error(`Supabase insert error: ${supabaseError.message}`);
       }
 
       console.log('Upload completed...');
@@ -205,5 +195,94 @@ export class SupabaseService {
     }
 
     return (data as Song[]) || [];
+  }
+
+  async getSongsByTitle(title: string): Promise<Song[]> {
+    if (!title) {
+      return this.getSongs();
+    }
+
+    const { data, error } = await this.supabase_client
+      .from('songs')
+      .select('*')
+      .ilike('title', `%${title}%`)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.log(error);
+    }
+
+    return (data as Song[]) || [];
+  }
+
+  async likeSong(songID: string) {
+    const user = await this.supabase_client.auth.getSession();
+    const userID = user.data.session?.user.id;
+
+    const { data, error } = await this.supabase_client
+      .from('liked_songs')
+      .select('*')
+      .eq('userId', userID)
+      .eq('song_id', songID)
+      .single();
+
+    if (!error && data) {
+      this._songLiked = true;
+    }
+  }
+
+  async handleLike(songId: string) {
+    const user = await this.supabase_client.auth.getSession();
+    const userID = user.data.session?.user.id;
+
+    if (!user) {
+      return this.modalService.toggleLoadingModal();
+    }
+
+    if (this._songLiked) {
+      const { error } = await this.supabase_client
+        .from('liked_songs')
+        .delete()
+        .eq('user_id', userID)
+        .eq('song_id', songId);
+
+      if (error) {
+        console.log(error.message);
+      } else {
+        this._songLiked = false;
+      }
+    } else {
+      const { error } = await this.supabase_client.from('liked_songs').insert({
+        song_id: songId,
+        user_id: userID,
+      });
+
+      if (error) {
+        console.error(error.message);
+      } else {
+        this._songLiked = true;
+        console.log('Success');
+      }
+    }
+  }
+
+  async getLikedSongs() {
+    const {
+      data: { session },
+    } = await this.supabase_client.auth.getSession();
+
+    const { data, error } = await this.supabase_client
+      .from('liked_songs')
+      .select('*, songs(*)')
+      .eq('user_id', session?.user?.id)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.log(error);
+    }
+
+    return data?.map(item => ({
+      ...item.songs,
+    }));
   }
 }
